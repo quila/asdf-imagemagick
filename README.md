@@ -9,6 +9,7 @@ Install dependencies via Homebrew before installing ImageMagick:
 
 ```bash
 brew install libpng libjpeg-turbo libtiff webp
+``` 
 
 ### Passing Extra Arguments for configure:
 
