@@ -3,7 +3,7 @@
 
 ## Currently, the plugin works for Linux based OS and macOS
 
-## macOS Prerequisites
+### macOS Prerequisites
 
 Install dependencies via Homebrew before installing ImageMagick:
 
