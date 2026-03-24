@@ -5,11 +5,8 @@ install_imagemagick() {
   local version=$2
   local install_path=$3
 
-  if [ "$TMPDIR" = "" ]; then
-    local tmp_download_dir=$(mktemp -d -t imagemagick_build_XXXXXX)
-  else
-    local tmp_download_dir=$TMPDIR
-  fi
+  # Always create a subdirectory to avoid deleting the entire TMPDIR
+  local tmp_download_dir=$(mktemp -d -t imagemagick_build_XXXXXX)
 
   # path to the tar file
   local source_path=$(get_download_file_path $install_type $version $tmp_download_dir)
@@ -21,7 +18,13 @@ install_imagemagick() {
   (
     tar zxf $source_path -C $tmp_download_dir --strip-components=1 || exit 1
     cd $tmp_download_dir
-    ./configure --prefix=$ASDF_INSTALL_PATH CPPFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib" $IMAGEMAGICK_EXTRA > $ASDF_INSTALL_PATH/../config.log
+    # Detect Homebrew prefix (Apple Silicon vs Intel)
+    if [ -d "/opt/homebrew" ]; then
+      BREW_PREFIX="/opt/homebrew"
+    else
+      BREW_PREFIX="/usr/local"
+    fi
+    ./configure --prefix=$ASDF_INSTALL_PATH CPPFLAGS="-I$BREW_PREFIX/include" LDFLAGS="-L$BREW_PREFIX/lib" PKG_CONFIG_PATH="$BREW_PREFIX/lib/pkgconfig" $IMAGEMAGICK_EXTRA > $ASDF_INSTALL_PATH/../config.log
     make clean test > $ASDF_INSTALL_PATH/../make.log
     make install > $ASDF_INSTALL_PATH/../make_install.log
     rm -rf $tmp_download_dir
