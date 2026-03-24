@@ -1,7 +1,14 @@
 # asdf-imagemagick
 ![GITHUB ACTIONS BADGE](https://github.com/mangalakader/asdf-imagemagick/workflows/Imagemagick%20Plugin%20Test/badge.svg)
 
-## Currently, the plugin works only for Linux based OS.
+## Currently, the plugin works for Linux based OS and macOS
+
+## macOS Prerequisites
+
+Install dependencies via Homebrew before installing ImageMagick:
+
+```bash
+brew install libpng libjpeg-turbo libtiff webp
 
 ### Passing Extra Arguments for configure:
 
@@ -14,5 +21,3 @@ The plugin installation defaults to asdf install directory, which might look lik
 
 If something is wrong, please look for logs in the asdf install dir named
 config.log, make.log, make_install.log
-
-
